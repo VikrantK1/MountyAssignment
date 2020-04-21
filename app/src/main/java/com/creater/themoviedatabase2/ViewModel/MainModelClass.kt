@@ -7,15 +7,15 @@ import com.creater.themoviedatabase2.database.DatabaseClass
 import com.creater.themoviedatabase2.repository.Repository
 
 class MainModelClass(application: Application) : AndroidViewModel(application) {
-lateinit var repository: Repository
+    var repository: Repository
     init {
         repository= Repository(application)
     }
-    fun getRoomData():LiveData<List<DatabaseClass>>
+    fun getRoomData():LiveData<List<DatabaseClass>>   //GetTheLiveDataFromDataBase
     {
         return repository.alldata()
     }
-    fun getApiData()
+    fun getApiData()   //GetDataFromUpcomingMovies
     {
         repository.apiData()
     }

@@ -22,10 +22,10 @@ import com.squareup.picasso.Picasso
 
 class UpcomingMovies(var context: MainActivity, var list12:List<DatabaseClass>):
     RecyclerView.Adapter<UpcomingMovies.holder>() {
-    var container1= mutableListOf<DatabaseClass>()
+    var AdaperList:List<DatabaseClass>?= null
     var mcontext:Context?=null
     init {
-        container1.addAll(list12)
+        AdaperList=list12
        this.mcontext = context
     }
 
@@ -46,13 +46,13 @@ class UpcomingMovies(var context: MainActivity, var list12:List<DatabaseClass>):
 
     override fun getItemCount(): Int {
 
-        return container1.size
+        return AdaperList?.size!!
 
     }
 
     override fun onBindViewHolder(holder: holder, position: Int) {
              Log.i("vik","binding is going on")
-        var byteArray:ByteArray= container1.get(position).imgdata!!
+        var byteArray:ByteArray= AdaperList?.get(position)?.imgdata!!
         var data: Bitmap =BitmapFactory.decodeByteArray(byteArray,0,byteArray.count())
         holder.image?.setImageBitmap(data)
 

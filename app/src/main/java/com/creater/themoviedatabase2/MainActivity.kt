@@ -37,52 +37,48 @@ import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import retrofit2.Callback as Callback
 
-class MainActivity : AppCompatActivity(){
-    var api:Api_Service?=null
-   var adapterTopRatedMovies:TopRatedMovies?=null
-
-        var adapter12:UpcomingMovies?=null
-
-      lateinit  var UpcomingMovies_Recycler:RecyclerView
-      lateinit var mainModelClass: MainModelClass
-      lateinit var TopRatedRecyclerView:RecyclerView
-
+class MainActivity : AppCompatActivity() {
+    var adapterTopRatedMovies: TopRatedMovies? = null
+    var adapter12: UpcomingMovies? = null
+    lateinit var mainModelClass: MainModelClass
+    //widget
+    lateinit var UpcomingMovies_Recycler: RecyclerView
+    lateinit var TopRatedRecyclerView: RecyclerView
+    //widget
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        UpcomingMovies_Recycler=findViewById(R.id.UpcomingMovieRecycler)
-        TopRatedRecyclerView=findViewById(R.id.TopRateMovie_Recycler)
-        TopRatedRecyclerView?.layoutManager=GridLayoutManager(this,3)
-        UpcomingMovies_Recycler?.layoutManager=LinearLayoutManager(this@MainActivity,RecyclerView.HORIZONTAL,false)
-        UpcomingMovies_Recycler?.adapter=adapter12
-        TopRatedRecyclerView.adapter=adapterTopRatedMovies
-        mainModelClass=ViewModelProvider(this).get(MainModelClass::class.java)
-        if (isNetworkConnected())
-        {
-        mainModelClass.getApiData()
-        mainModelClass.getDataApi()
-        }
-        else
-        {
-            Toast.makeText(applicationContext,"network is Not Connected",Toast.LENGTH_LONG).show()
+        //initilation
+        UpcomingMovies_Recycler = findViewById(R.id.UpcomingMovieRecycler)
+        TopRatedRecyclerView = findViewById(R.id.TopRateMovie_Recycler)
+        //initilation
+        TopRatedRecyclerView?.layoutManager = GridLayoutManager(this, 3) //TopMovieRecyclerview
+        UpcomingMovies_Recycler?.layoutManager =
+            LinearLayoutManager(this@MainActivity, RecyclerView.HORIZONTAL, false)
+        mainModelClass = ViewModelProvider(this).get(MainModelClass::class.java)  //ViewModelProvider
+        if (isNetworkConnected()) {
+            mainModelClass.getApiData()  //UpComing Movie
+            mainModelClass.getDataApi()  //TopRated Movie
+        } else {
+            Toast.makeText(applicationContext, "network is Not Connected", Toast.LENGTH_LONG).show()
         }
         mainModelClass.getRoomData().observe(this,
             Observer<List<DatabaseClass>> { t ->
-                Log.i("vikrecy",t.size.toString())
-                UpcomingMovies_Recycler.adapter=UpcomingMovies(this@MainActivity,t!!)
+                UpcomingMovies_Recycler.adapter = UpcomingMovies(this@MainActivity, t!!)
             }
         )
-            mainModelClass.getRoodataTopMovies().observe(this,Observer<List<DatabaseClass>>{t->
-            TopRatedRecyclerView.adapter=TopRatedMovies(this@MainActivity,t)
+        mainModelClass.getRoodataTopMovies().observe(this, Observer<List<DatabaseClass>> { s ->
+            TopRatedRecyclerView.adapter = TopRatedMovies(this@MainActivity, s) //adapter to TopMovies RecyclerView
         })
 
-}
-    fun isNetworkConnected():Boolean{
-       var contectivity:ConnectivityManager=getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return contectivity.isActiveNetworkMetered
     }
 
+    fun isNetworkConnected(): Boolean {
+        var contectivity: ConnectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return contectivity.isActiveNetworkMetered
+    }
 
 
 }

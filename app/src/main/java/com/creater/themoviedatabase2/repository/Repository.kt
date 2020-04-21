@@ -65,42 +65,49 @@ class Repository(var application: Application) {
             }
             override fun onResponse(call: Call<container>, response: Response<container>) {
                 if (response.isSuccessful && response.body() != null) {
-                    for (i in response.body()!!.results!!) {
-                        Glide.with(application).asBitmap()
-                            .load("https://image.tmdb.org/t/p/w500${i.poster_path}")
-                            .listener(object : RequestListener<Bitmap> {
-                                override fun onResourceReady(
-                                    resource: Bitmap?,
-                                    model: Any?,
-                                    target: Target<Bitmap>?,
-                                    dataSource: DataSource?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    var stream = ByteArrayOutputStream()
-                                    resource?.compress(Bitmap.CompressFormat.PNG, 50, stream)
-                                    var data: ByteArray = stream.toByteArray()
-                                    when(response.code() )
-                                    {
-                                        200 ->{
-                                        Thread(Runnable {
-                                            imgDao?.insert(DatabaseClass(i.id, i.title, data))
-                                        }).start()
-                                    }
-                                    }
-                                    return true
-                                }
+//                  when (response.code())
+//                  {
+//                      200->{
+//                      Thread(Runnable {
+                          for (i in response.body()!!.results!!) {
+                              Glide.with(application).asBitmap()
+                                  .load("https://image.tmdb.org/t/p/w500${i.poster_path}")
+                                  .listener(object : RequestListener<Bitmap> {
+                                      override fun onResourceReady(
+                                          resource: Bitmap?,
+                                          model: Any?,
+                                          target: Target<Bitmap>?,
+                                          dataSource: DataSource?,
+                                          isFirstResource: Boolean
+                                      ): Boolean {
+                                          var stream = ByteArrayOutputStream()
+                                          resource?.compress(Bitmap.CompressFormat.PNG, 50, stream)
+                                          var data: ByteArray = stream.toByteArray()
+                                          when(response.code() )
+                                          {
+                                              200 ->{
+                                                  Thread(Runnable {
+                                                      imgDao?.insert(DatabaseClass(i.id, i.title, data))
+                                                  }).start()
+                                              }
+                                          }
+                                          return true
+                                      }
 
-                                override fun onLoadFailed(
-                                    e: GlideException?,
-                                    model: Any?,
-                                    target: Target<Bitmap>?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    return true
-                                }
-                            }).submit()
+                                      override fun onLoadFailed(
+                                          e: GlideException?,
+                                          model: Any?,
+                                          target: Target<Bitmap>?,
+                                          isFirstResource: Boolean
+                                      ): Boolean {
+                                          return true
+                                      }
+                                  }).submit()
 
-                    }
+                          }
+//                      }).start()
+//                  }
+//                  }
 
                 }
             }
@@ -125,40 +132,45 @@ class Repository(var application: Application) {
             override fun onResponse(call: Call<container>, response: Response<container>) {
                 if (response.isSuccessful && response.body() != null) {
                     for (i in response.body()!!.results!!) {
-                        Glide.with(application).asBitmap()
-                            .load("https://image.tmdb.org/t/p/w500${i.poster_path}")
-                            .listener(object : RequestListener<Bitmap> {
-                                override fun onResourceReady(
-                                    resource: Bitmap?,
-                                    model: Any?,
-                                    target: Target<Bitmap>?,
-                                    dataSource: DataSource?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    var stream = ByteArrayOutputStream()
-                                    resource?.compress(Bitmap.CompressFormat.PNG, 50, stream)
-                                   when(response.code())
-                                   {
-                                       200->{
-                                           var data: ByteArray = stream.toByteArray()
-                                           Thread(Runnable {
-                                               TopMovie?.insert(DatabaseClass(i.id, i.title, data))
-                                           }).start()
-                                       }
-                                   }
-                                    return true
-                                }
+                        when(response.code())
+                        {
+                            200->{
+                               Thread(Runnable {
+                                   Glide.with(application).asBitmap()
+                                       .load("https://image.tmdb.org/t/p/w500${i.poster_path}")
+                                       .listener(object : RequestListener<Bitmap> {
+                                           override fun onResourceReady(
+                                               resource: Bitmap?,
+                                               model: Any?,
+                                               target: Target<Bitmap>?,
+                                               dataSource: DataSource?,
+                                               isFirstResource: Boolean
+                                           ): Boolean {
+                                               var stream = ByteArrayOutputStream()
+                                               resource?.compress(Bitmap.CompressFormat.PNG, 50, stream)
+                                               var data: ByteArray = stream.toByteArray()
 
-                                override fun onLoadFailed(
-                                    e: GlideException?,
-                                    model: Any?,
-                                    target: Target<Bitmap>?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    return true
-                                }
-                            }).submit()
-                    }
+                                                   TopMovie?.insert(DatabaseClass(i.id, i.title, data))
+
+                                               return true
+                                           }
+
+                                           override fun onLoadFailed(
+                                               e: GlideException?,
+                                               model: Any?,
+                                               target: Target<Bitmap>?,
+                                               isFirstResource: Boolean
+                                           ): Boolean {
+                                               return true
+                                           }
+                                       }).submit()
+                               }).start()
+                            }
+                            }
+
+                            }
+
+
                 }
 
             }

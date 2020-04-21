@@ -15,10 +15,10 @@ import com.creater.themoviedatabase2.database.DatabaseClass
 
 class TopRatedMovies(context: Context,container1:List<DatabaseClass>): RecyclerView.Adapter<TopRatedMovies.DataHolder>() {
     var mcontext:Context?=null
-    var listdata= mutableListOf<DatabaseClass>()
+    var listdata= container1
     init {
          mcontext=context
-         listdata.addAll(container1!!)
+         listdata=container1
     }
     class DataHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
        var text:TextView?=null
