@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity() {
         TopRatedRecyclerView?.layoutManager = GridLayoutManager(this, 3) //TopMovieRecyclerview
         UpcomingMovies_Recycler?.layoutManager =
             LinearLayoutManager(this@MainActivity, RecyclerView.HORIZONTAL, false)
-        mainModelClass = ViewModelProvider(this).get(MainModelClass::class.java)  //ViewModelProvider
+        mainModelClass =
+            ViewModelProvider(this).get(MainModelClass::class.java)  //ViewModelProvider
         if (isNetworkConnected()) {
             mainModelClass.getApiData()  //UpComing Movie
             mainModelClass.getDataApi()  //TopRated Movie
@@ -69,7 +70,8 @@ class MainActivity : AppCompatActivity() {
             }
         )
         mainModelClass.getRoomdataTopMovies().observe(this, Observer<List<DatabaseClass>> { s ->
-            TopRatedRecyclerView.adapter = TopRatedMovies(this@MainActivity, s) //adapter to TopMovies RecyclerView
+            TopRatedRecyclerView.adapter =
+                TopRatedMovies(this@MainActivity, s) //adapter to TopMovies RecyclerView
         })
 
     }

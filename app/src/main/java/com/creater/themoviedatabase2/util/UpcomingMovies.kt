@@ -19,29 +19,32 @@ import com.creater.themoviedatabase2.MainActivity
 import com.creater.themoviedatabase2.R
 import com.creater.themoviedatabase2.database.DatabaseClass
 import com.squareup.picasso.Picasso
+
 /** Upcoming Movie Adapter **/
-class UpcomingMovies(var context: MainActivity, var list12:List<DatabaseClass>):
+class UpcomingMovies(var context: MainActivity, var list12: List<DatabaseClass>) :
     RecyclerView.Adapter<UpcomingMovies.holder>() {
-    var AdaperList:List<DatabaseClass>?= null
-    var mcontext:Context?=null
+    var AdaperList: List<DatabaseClass>? = null
+    var mcontext: Context? = null
+
     init {
-        AdaperList=list12
-       this.mcontext = context
+        AdaperList = list12
+        this.mcontext = context
     }
 
 
     class holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var image:ImageView?=null
+        var image: ImageView? = null
+
         init {
-            this.image =itemView.findViewById(R.id.UpcomingMovies)
+            this.image = itemView.findViewById(R.id.UpcomingMovies)
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UpcomingMovies.holder {
 
-        var view=LayoutInflater.from(parent.context).inflate(R.layout.movielayout,parent,false)
-       return holder(view)
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.movielayout, parent, false)
+        return holder(view)
     }
 
     override fun getItemCount(): Int {
@@ -51,15 +54,15 @@ class UpcomingMovies(var context: MainActivity, var list12:List<DatabaseClass>):
     }
 
     override fun onBindViewHolder(holder: holder, position: Int) {
-             Log.i("vik","binding is going on")
-        var byteArray:ByteArray= AdaperList?.get(position)?.imgdata!!
-        var data: Bitmap =BitmapFactory.decodeByteArray(byteArray,0,byteArray.count())
+        Log.i("vik", "binding is going on")
+        var byteArray: ByteArray = AdaperList?.get(position)?.imgdata!!
+        var data: Bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.count())
         holder.image?.setImageBitmap(data)
 
     }
 
 
-    }
+}
 
 
 

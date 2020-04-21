@@ -21,6 +21,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
+
 /** MVVM very important class this class decide from whare will come **/
 class Repository(var application: Application) {
     private val BASE_ADDRESS = "https://api.themoviedb.org/3/movie/"
@@ -48,7 +49,7 @@ class Repository(var application: Application) {
 
     }
 
-
+    /*********************Upcoming Movies Function**************************************/
     fun alldata(): LiveData<List<DatabaseClass>> {
         return livedata!!
     }
@@ -57,56 +58,58 @@ class Repository(var application: Application) {
         Log.i("vik", "DataFromApi")
         UpcomingMovies = Retrofit.Builder().baseUrl(BASE_ADDRESS)
             .addConverterFactory(GsonConverterFactory.create()).build()
-       var api = UpcomingMovies?.create(Api_Service::class.java)
+        var api = UpcomingMovies?.create(Api_Service::class.java)
         api?.fatchAlllist(UPCOMINGMOVIES, API_KEY, Language, page)?.enqueue(object :
             Callback<container> {
             override fun onFailure(call: Call<container>, t: Throwable) {
 
             }
+
             override fun onResponse(call: Call<container>, response: Response<container>) {
                 if (response.isSuccessful && response.body() != null) {
 
-                          for (i in response.body()!!.results!!) {
-                              Glide.with(application).asBitmap()
-                                  .load("https://image.tmdb.org/t/p/w500${i.poster_path}")
-                                  .listener(object : RequestListener<Bitmap> {
-                                      override fun onResourceReady(
-                                          resource: Bitmap?,
-                                          model: Any?,
-                                          target: Target<Bitmap>?,
-                                          dataSource: DataSource?,
-                                          isFirstResource: Boolean
-                                      ): Boolean {
-                                          var stream = ByteArrayOutputStream()
-                                          resource?.compress(Bitmap.CompressFormat.PNG, 20, stream)
-                                          var data: ByteArray = stream.toByteArray()
-                                          when(response.code() )
-                                          {
-                                              200 ->{
-                                                  Thread(Runnable {
-                                                      imgDao?.insert(DatabaseClass(i.id, i.title, data))
-                                                  }).start()
-                                              }
-                                          }
-                                          return true
-                                      }
+                    for (i in response.body()!!.results!!) {
+                        Glide.with(application).asBitmap()
+                            .load("https://image.tmdb.org/t/p/w500${i.poster_path}")
+                            .listener(object : RequestListener<Bitmap> {
+                                override fun onResourceReady(
+                                    resource: Bitmap?,
+                                    model: Any?,
+                                    target: Target<Bitmap>?,
+                                    dataSource: DataSource?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    var stream = ByteArrayOutputStream()
+                                    resource?.compress(Bitmap.CompressFormat.PNG, 20, stream)
+                                    var data: ByteArray = stream.toByteArray()
+                                    when (response.code()) {
+                                        200 -> {
+                                            Thread(Runnable {
+                                                imgDao?.insert(DatabaseClass(i.id, i.title, data))
+                                            }).start()
+                                        }
+                                    }
+                                    return true
+                                }
 
-                                      override fun onLoadFailed(
-                                          e: GlideException?,
-                                          model: Any?,
-                                          target: Target<Bitmap>?,
-                                          isFirstResource: Boolean
-                                      ): Boolean {
-                                          return true
-                                      }
-                                  }).submit()
+                                override fun onLoadFailed(
+                                    e: GlideException?,
+                                    model: Any?,
+                                    target: Target<Bitmap>?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    return true
+                                }
+                            }).submit()
 
-                          }
+                    }
                 }
             }
         }
         )
     }
+
+    /**************************************TopRated Movie function**********************************/
 
     fun TopRatedDataBase(): LiveData<List<DatabaseClass>> {
         return livedataofTopRated!!
@@ -115,7 +118,7 @@ class Repository(var application: Application) {
     fun RatedMoviesApi() {
         Rated_Movie = Retrofit.Builder().baseUrl(BASE_ADDRESS)
             .addConverterFactory(GsonConverterFactory.create()).build()
-       var api = Rated_Movie?.create(Api_Service::class.java)
+        var api = Rated_Movie?.create(Api_Service::class.java)
         api?.fatchAlllist(TOPRATEDMOVIES, API_KEY, Language, page)?.enqueue(object :
             Callback<container> {
             override fun onFailure(call: Call<container>, t: Throwable) {
@@ -125,43 +128,46 @@ class Repository(var application: Application) {
             override fun onResponse(call: Call<container>, response: Response<container>) {
                 if (response.isSuccessful && response.body() != null) {
                     for (i in response.body()!!.results!!) {
-                        when(response.code())
-                        {
-                            200->{
-                               Thread(Runnable {
-                                   Glide.with(application).asBitmap()
-                                       .load("https://image.tmdb.org/t/p/w500${i.poster_path}")
-                                       .listener(object : RequestListener<Bitmap> {
-                                           override fun onResourceReady(
-                                               resource: Bitmap?,
-                                               model: Any?,
-                                               target: Target<Bitmap>?,
-                                               dataSource: DataSource?,
-                                               isFirstResource: Boolean
-                                           ): Boolean {
-                                               var stream = ByteArrayOutputStream()
-                                               resource?.compress(Bitmap.CompressFormat.PNG, 20, stream)
-                                               var data: ByteArray = stream.toByteArray()
+                        when (response.code()) {
+                            200 -> {
+                                Thread(Runnable {
+                                    Glide.with(application).asBitmap()
+                                        .load("https://image.tmdb.org/t/p/w500${i.poster_path}")
+                                        .listener(object : RequestListener<Bitmap> {
+                                            override fun onResourceReady(
+                                                resource: Bitmap?,
+                                                model: Any?,
+                                                target: Target<Bitmap>?,
+                                                dataSource: DataSource?,
+                                                isFirstResource: Boolean
+                                            ): Boolean {
+                                                var stream = ByteArrayOutputStream()
+                                                resource?.compress(
+                                                    Bitmap.CompressFormat.PNG,
+                                                    20,
+                                                    stream
+                                                )
+                                                var data: ByteArray = stream.toByteArray()
 
-                                                   TopMovie?.insert(DatabaseClass(i.id, i.title, data))
+                                                TopMovie?.insert(DatabaseClass(i.id, i.title, data))
 
-                                               return true
-                                           }
+                                                return true
+                                            }
 
-                                           override fun onLoadFailed(
-                                               e: GlideException?,
-                                               model: Any?,
-                                               target: Target<Bitmap>?,
-                                               isFirstResource: Boolean
-                                           ): Boolean {
-                                               return true
-                                           }
-                                       }).submit()
-                               }).start()
+                                            override fun onLoadFailed(
+                                                e: GlideException?,
+                                                model: Any?,
+                                                target: Target<Bitmap>?,
+                                                isFirstResource: Boolean
+                                            ): Boolean {
+                                                return true
+                                            }
+                                        }).submit()
+                                }).start()
                             }
-                            }
+                        }
 
-                            }
+                    }
 
 
                 }
