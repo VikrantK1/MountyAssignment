@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 UpcomingMovies_Recycler.adapter = UpcomingMovies(this@MainActivity, t!!)
             }
         )
-        mainModelClass.getRoodataTopMovies().observe(this, Observer<List<DatabaseClass>> { s ->
+        mainModelClass.getRoomdataTopMovies().observe(this, Observer<List<DatabaseClass>> { s ->
             TopRatedRecyclerView.adapter = TopRatedMovies(this@MainActivity, s) //adapter to TopMovies RecyclerView
         })
 

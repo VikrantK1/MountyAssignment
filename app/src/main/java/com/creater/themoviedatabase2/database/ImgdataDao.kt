@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-
+/** Room class interface **/
 @Dao
 interface ImgdataDao {
     @Insert(onConflict = REPLACE)

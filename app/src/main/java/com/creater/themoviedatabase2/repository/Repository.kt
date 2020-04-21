@@ -21,7 +21,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
-
+/** MVVM very important class this class decide from whare will come **/
 class Repository(var application: Application) {
     private val BASE_ADDRESS = "https://api.themoviedb.org/3/movie/"
     private val API_KEY = "bd2d96b5aa386796eb751412f883911b"
@@ -65,10 +65,7 @@ class Repository(var application: Application) {
             }
             override fun onResponse(call: Call<container>, response: Response<container>) {
                 if (response.isSuccessful && response.body() != null) {
-//                  when (response.code())
-//                  {
-//                      200->{
-//                      Thread(Runnable {
+
                           for (i in response.body()!!.results!!) {
                               Glide.with(application).asBitmap()
                                   .load("https://image.tmdb.org/t/p/w500${i.poster_path}")
@@ -81,7 +78,7 @@ class Repository(var application: Application) {
                                           isFirstResource: Boolean
                                       ): Boolean {
                                           var stream = ByteArrayOutputStream()
-                                          resource?.compress(Bitmap.CompressFormat.PNG, 50, stream)
+                                          resource?.compress(Bitmap.CompressFormat.PNG, 20, stream)
                                           var data: ByteArray = stream.toByteArray()
                                           when(response.code() )
                                           {
@@ -105,10 +102,6 @@ class Repository(var application: Application) {
                                   }).submit()
 
                           }
-//                      }).start()
-//                  }
-//                  }
-
                 }
             }
         }
@@ -147,7 +140,7 @@ class Repository(var application: Application) {
                                                isFirstResource: Boolean
                                            ): Boolean {
                                                var stream = ByteArrayOutputStream()
-                                               resource?.compress(Bitmap.CompressFormat.PNG, 50, stream)
+                                               resource?.compress(Bitmap.CompressFormat.PNG, 20, stream)
                                                var data: ByteArray = stream.toByteArray()
 
                                                    TopMovie?.insert(DatabaseClass(i.id, i.title, data))

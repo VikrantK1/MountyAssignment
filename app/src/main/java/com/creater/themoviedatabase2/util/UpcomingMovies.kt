@@ -19,7 +19,7 @@ import com.creater.themoviedatabase2.MainActivity
 import com.creater.themoviedatabase2.R
 import com.creater.themoviedatabase2.database.DatabaseClass
 import com.squareup.picasso.Picasso
-
+/** Upcoming Movie Adapter **/
 class UpcomingMovies(var context: MainActivity, var list12:List<DatabaseClass>):
     RecyclerView.Adapter<UpcomingMovies.holder>() {
     var AdaperList:List<DatabaseClass>?= null

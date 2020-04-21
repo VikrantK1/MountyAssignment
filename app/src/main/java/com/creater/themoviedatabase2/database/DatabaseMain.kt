@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.*
 import androidx.room.RoomDatabase.Callback
 import androidx.sqlite.db.SupportSQLiteOpenHelper
-
+/** DataBase of Upcoming Movies **/
 @Database(entities = arrayOf(DatabaseClass::class),version = 1)
  abstract class DatabaseMain: RoomDatabase() {
     var instance:DatabaseMain?=null

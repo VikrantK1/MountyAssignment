@@ -5,7 +5,7 @@ import android.icu.text.CaseMap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+/** Database data container class **/
 @Entity(tableName = "MovieData")
 data class DatabaseClass(
     @PrimaryKey(autoGenerate = true)

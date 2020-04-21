@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.creater.themoviedatabase2.R
 import com.creater.themoviedatabase2.database.DatabaseClass
-
+/** TopRater Movie Adapter wchich will be used in RecyclerView **/
 class TopRatedMovies(context: Context,container1:List<DatabaseClass>): RecyclerView.Adapter<TopRatedMovies.DataHolder>() {
     var mcontext:Context?=null
     var listdata= container1
